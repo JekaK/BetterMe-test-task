@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BetterMe test task</string>
+    <string name="main_database_name">main_db</string>
+</resources>
