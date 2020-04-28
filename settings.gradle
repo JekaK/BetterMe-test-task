@@ -1,0 +1,5 @@
+rootProject.name='BetterMe test task'
+include ':app'
+include ':domain'
+include ':data'
+include ':presentation'
