@@ -1,5 +1,6 @@
 package com.krikun.data.db.movie
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
@@ -7,30 +8,30 @@ import com.krikun.data.db.BaseDao
 import io.reactivex.Flowable
 
 @Dao
-interface FavouriteMoviesDao : BaseDao<MovieData.Movie> {
+interface FavouriteMoviesDao : BaseDao<MovieData.FavouriteMovie> {
 
     @Query("SELECT * FROM movie_table WHERE id = :id")
-    override fun select(id: Long): Flowable<MovieData.Movie>
+    override fun select(id: Long): Flowable<MovieData.FavouriteMovie>
 
     @Query("SELECT * FROM movie_table ORDER BY id")
-    override fun selectAll(): List<MovieData.Movie>
+    override fun selectAll(): DataSource.Factory<Int, MovieData.FavouriteMovie>
 
 
     @Query("DELETE FROM movie_table")
     override fun truncate()
 
     @Transaction
-    fun replace(movies: List<MovieData.Movie>) {
-        val firstId: Long = movies.firstOrNull()?.id ?: run {
+    fun replace(favouriteMovies: List<MovieData.FavouriteMovie>) {
+        val firstId: Long = favouriteMovies.firstOrNull()?.id ?: run {
             0L
         }
 
-        val lastId = movies.lastOrNull()?.id ?: run {
+        val lastId = favouriteMovies.lastOrNull()?.id ?: run {
             Long.MAX_VALUE
         }
 
         deleteRange(firstId, lastId)
-        insert(movies)
+        insert(favouriteMovies)
     }
 
     @Query("DELETE FROM movie_table WHERE id BETWEEN :firstId AND :lastId")

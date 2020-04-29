@@ -1,29 +1,30 @@
 package com.krikun.data.datasource.movie
 
-import com.krikun.data.extensions.castError
+import android.annotation.SuppressLint
 import com.krikun.data.mapper.map
-import com.krikun.data.network.MainApi
 import com.krikun.data.network.MainApiService
 import com.krikun.domain.entity.Entity
-import kotlinx.coroutines.coroutineScope
+import io.reactivex.Single
+import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 
 class MoviesApiDataSourceImpl(private val api: MainApiService) : MovieApiDataSource {
 
-    override suspend fun getMovies(
+
+    @SuppressLint("CheckResult")
+    override fun getMovies(
+        page: Int,
         releaseDateFrom: String,
         releaseDateTo: String
-    ): Entity.CommonMovieResponse<Entity.Movie>? {
-        val response = coroutineScope {
-            MainApi.mainApiService.getLastRelatedMovies(
-                releaseDateFrom = releaseDateFrom,
-                releaseDateTo = releaseDateTo
-            )
-        }.await()
-
-        return if (response.isSuccessful) {
-            response.body()?.map()
-        } else {
-            response.castError()
-        }
+    ): Single<Entity.CommonMovieResponse<Entity.Movie>>? {
+        return api.getLastRelatedMovies(
+            page = page,
+            releaseDateFrom = releaseDateFrom,
+            releaseDateTo = releaseDateTo
+        )
+            .applyIoScheduler()
+            .map { item ->
+                item.map()
+            }
     }
+
 }

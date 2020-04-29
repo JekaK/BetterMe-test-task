@@ -1,5 +1,6 @@
 package com.krikun.data.db
 
+import androidx.paging.DataSource
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +12,7 @@ interface BaseDao<T> {
 
     fun select(id: Long): Flowable<T>
 
-    fun selectAll(): List<T>
+    fun selectAll(): DataSource.Factory<Int, T>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(t: T): Long
@@ -26,7 +27,7 @@ interface BaseDao<T> {
     fun update(ts: List<T>)
 
     @Delete
-    fun delete(t: T): Single<Int>
+    fun delete(t: T): Int
 
     @Delete
     fun delete(ts: List<T>)

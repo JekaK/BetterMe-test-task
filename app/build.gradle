@@ -104,7 +104,6 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$room_version"
 
     api 'com.orhanobut:hawk:2.0.1'
-    implementation project(':presentation')
     implementation project(':data')
     implementation project(':domain')
 }

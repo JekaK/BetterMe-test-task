@@ -1,28 +1,31 @@
 package com.krikun.data.datasource.movie
 
-import com.krikun.data.db.movie.FavouriteMoviesDao
+import androidx.paging.DataSource
+import com.krikun.data.db.movie.MoviesDao
 import com.krikun.data.mapper.map
+import com.krikun.data.mapper.mapToMovie
 import com.krikun.domain.entity.Entity
 import io.reactivex.Single
 import java.util.concurrent.Executor
 
 class MovieDataBaseDataSourceImpl(
-    private val moviesDao: FavouriteMoviesDao,
+    private val moviesDao: MoviesDao,
     private val ioExecutor: Executor
 ) : MovieDataBaseDataSource {
-    override fun getMovies(): List<Entity.Movie> = moviesDao.selectAll().map {
+    override fun getMovies(): DataSource.Factory<Int, Entity.Movie> = moviesDao.selectAll().map {
         it.map()
     }
 
     override fun persist(movies: List<Entity.Movie>, insertFinished: () -> Unit) {
         ioExecutor.execute {
             moviesDao.insert(movies.map {
-                it.map()
+                it.mapToMovie()
             })
             insertFinished()
         }
     }
 
-    override fun deleteMovies(movie: Entity.Movie): Single<Int> = moviesDao.delete(movie.map())
+    override fun deleteMovies(movie: Entity.Movie): Single<Int> =
+        Single.just(moviesDao.delete(movie.mapToMovie()))
 
 }

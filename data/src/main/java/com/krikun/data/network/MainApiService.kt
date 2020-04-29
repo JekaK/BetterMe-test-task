@@ -1,5 +1,6 @@
 package com.krikun.data.network
 
+import io.reactivex.Single
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,10 +11,11 @@ interface MainApiService {
     fun getLastRelatedMovies(
         @Query("api_key") apiKey: String = ApiConfig.API_KEY,
         @Query("language") language: String = "en-US",
+        @Query("page") page: Int,
         @Query("release_date.gte") releaseDateFrom: String,
         @Query("release_date.lte") releaseDateTo: String
 
-    ): Deferred<Response<MovieDto.CommonMovieResponse<MovieDto.Movie>>>
+    ): Single<MovieDto.CommonMovieResponse<MovieDto.Movie>>
 
     sealed class MovieDto {
 

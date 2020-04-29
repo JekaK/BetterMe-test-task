@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@+id/nav_home">
+
+    <include app:graph="@navigation/nav_movie" />
+    <include app:graph="@navigation/nav_fav" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.krikun.newsapp.screens.main.home.HomeFragment"-->
+<!--        android:label="HomeFragment"-->
+<!--        tools:layout="@layout/fragment_home">-->
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_customWebView"-->
+<!--            app:destination="@id/customWebView"-->
+<!--            app:launchSingleTop="true" />-->
+<!--        <argument-->
+<!--            android:name="url"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="title"-->
+<!--            app:argType="string" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/customWebView"-->
+<!--        android:name="com.krikun.newsapp.screens.main.home.webview.CustomWebView"-->
+<!--        android:label="CustomWebView"-->
+<!--        tools:layout="@layout/fragment_custom_web_view" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_favourite"-->
+<!--        android:name="com.krikun.newsapp.screens.main.favourite.FavouriteFragment"-->
+<!--        android:label="FavouriteFragment" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_discover"-->
+<!--        android:name="com.krikun.newsapp.screens.main.discover.DiscoverFragment"-->
+<!--        android:label="DiscoverFragment"-->
+<!--        tools:layout="@layout/fragment_discover" />-->
+
+</navigation>
