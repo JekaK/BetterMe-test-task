@@ -21,7 +21,6 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(),
     SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel: FavouriteViewModel by viewModel()
-    private var isLoading = false
     private val adapter: FavMoviesPagedAdapter by lazy {
         FavMoviesPagedAdapter()
     }
@@ -29,45 +28,60 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(),
     override val layoutRes: Int
         get() = R.layout.fragment_favourite
 
-    private fun showMovies(movies: ResultState<PagedList<Entity.Movie>>) {
-        when (movies) {
-            is ResultState.Success -> {
-                hideLoading()
-                adapter.submitList(movies.data)
-            }
-            is ResultState.Error -> {
-                hideLoading()
-                Toast.makeText(activity, movies.throwable.message, Toast.LENGTH_SHORT).show()
-                adapter.submitList(movies.data)
-            }
-            is ResultState.Loading -> {
-                adapter.submitList(movies.data)
-            }
+    override fun onCreate(initial: Boolean) {
+        super.onCreate(initial)
+        if(initial){
+            initRx()
+            observe(viewModel.moviesLiveData, ::showMovies)
         }
-        isLoading = false
-        srFav.isRefreshing = false
     }
-
 
     override fun onViewCreated() {
         binding.viewModel = viewModel
         initView()
-        observe(viewModel.moviesLiveData, ::showMovies)
         viewModel.getMovies()
     }
 
-    @SuppressLint("CheckResult")
     private fun initView() {
         srFav.isRefreshing = true
         srFav.setOnRefreshListener(this)
         rvFavourite.adapter = adapter
 
+        viewModel.isLoading.set(true)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun initRx(){
         adapter.movieDeleteItemClickEvent.applyIoScheduler().subscribe { it ->
             viewModel.deleteMovie(it) {
                 //Can do some fancy stuff
             }
         }
-        showLoading()
+    }
+
+    private fun showMovies(movies: ResultState<PagedList<Entity.Movie>>) {
+        when (movies) {
+            is ResultState.Success -> {
+                viewModel.isLoading.set(false)
+                viewModel.isEmpty.set(false)
+                adapter.submitList(movies.data)
+                srFav.isRefreshing = false
+            }
+            is ResultState.Error -> {
+                viewModel.isLoading.set(false)
+                viewModel.isEmpty.set(false)
+                Toast.makeText(activity, movies.throwable.message, Toast.LENGTH_SHORT).show()
+                adapter.submitList(movies.data)
+            }
+            is ResultState.Loading -> {
+                viewModel.isEmpty.set(false)
+                adapter.submitList(movies.data)
+            }
+            is ResultState.Empty -> {
+                viewModel.isEmpty.set(true)
+                viewModel.isLoading.set(false)
+            }
+        }
     }
 
     override fun onRefresh() {

@@ -1,6 +1,7 @@
 package com.krikun.data.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import android.content.Context
+import com.krikun.data.network.interceptor.NetworkConnectionInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +20,7 @@ object MainApi {
 
     lateinit var mainApiService: MainApiService
 
-    fun init() {
+    fun init(context: Context) {
         val okHttpClientBuilder = OkHttpClient.Builder()
             .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -34,6 +35,7 @@ object MainApi {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(NetworkConnectionInterceptor(context))
 
         retrofit = Retrofit.Builder()
             .client(okHttpClientBuilder.build())

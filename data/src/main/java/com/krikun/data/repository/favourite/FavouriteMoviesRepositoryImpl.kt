@@ -9,7 +9,6 @@ import com.krikun.domain.entity.Entity
 import com.krikun.domain.repository.movies.FavouriteMovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.Single
 import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 
 class FavouriteMoviesRepositoryImpl(
@@ -34,14 +33,13 @@ class FavouriteMoviesRepositoryImpl(
                 if (d.size > 0)
                     ResultState.Success(d) as ResultState<PagedList<Entity.Movie>>
                 else
-                    ResultState.Loading(d) as ResultState<PagedList<Entity.Movie>>
+                    ResultState.Empty<Entity.Movie>() as ResultState<PagedList<Entity.Movie>>
             }
             .onErrorReturn { e -> ResultState.Error(e, null) }
     }
 
-    override fun deleteMovie(movie: Entity.Movie,deleteDone: () -> Unit) {
-
-        databaseSource.deleteMovies(movie,deleteDone)
+    override fun deleteMovie(movie: Entity.Movie, deleteDone: () -> Unit) {
+        databaseSource.deleteMovies(movie, deleteDone)
     }
 
 

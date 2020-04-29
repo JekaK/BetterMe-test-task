@@ -8,36 +8,29 @@ import com.krikun.data.datasource.movie.MovieDataBaseDataSource
 import com.krikun.data.datasource.movie.getMovies
 import com.krikun.domain.common.ResultState
 import com.krikun.domain.entity.Entity
+import io.reactivex.subjects.BehaviorSubject
 
 class RepoBoundaryCallback(
     private val apiSource: MovieApiDataSource,
     private val databaseSource: MovieDataBaseDataSource,
+    private val loadingState: BehaviorSubject<String>,
     private val releaseDateFrom: String,
     private val releaseDateTo: String
 ) : PagedList.BoundaryCallback<Entity.Movie>() {
 
-    // keep the last requested page. When the request is successful, increment the page number.
     private var lastRequestedPage = 1
-    private val _networkErrors = MutableLiveData<String>()
 
-    // LiveData of network errors.
-    val networkErrors: LiveData<String>
-        get() = _networkErrors
+    var isRequestInProgress = false
 
-    // avoid triggering multiple requests in the same time
-    private var isRequestInProgress = false
-
-    /**
-     * Database returned 0 items. We should send request to the backend for more items.
-     */
     override fun onZeroItemsLoaded() {
         requestAndSaveData()
     }
 
-    /**
-     * When all items in the database were loaded, we need to send a request to the backend for more items.
-     */
     override fun onItemAtEndLoaded(itemAtEnd: Entity.Movie) {
+        requestAndSaveData()
+    }
+
+    override fun onItemAtFrontLoaded(itemAtFront: Entity.Movie) {
         requestAndSaveData()
     }
 
@@ -58,7 +51,7 @@ class RepoBoundaryCallback(
                     }
                 }
                 is ResultState.Error -> {
-                    _networkErrors.postValue(movies.throwable.message)
+                    movies.throwable.message?.let { loadingState.onNext(it) }
                     isRequestInProgress = false
                 }
             }

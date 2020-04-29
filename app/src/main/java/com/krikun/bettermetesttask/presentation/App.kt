@@ -13,7 +13,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        MainApi.init()
+        MainApi.init(context)
         DICommon.init(this, DI)
 
     }

@@ -3,14 +3,17 @@ package com.krikun.bettermetesttask.presentation.binding
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.krikun.bettermetesttask.R
+import com.krikun.bettermetesttask.presentation.extensions.gone
 import com.krikun.bettermetesttask.presentation.extensions.postSelf
-import com.krikun.bettermetesttask.presentation.utils.gone
-import com.krikun.bettermetesttask.presentation.utils.visible
+import com.krikun.bettermetesttask.presentation.extensions.visible
 import jp.wasabeef.glide.transformations.GrayscaleTransformation
+
 
 @BindingAdapter("isVisible")
 fun bindIsVisible(view: View, isVisible: Boolean?) {
@@ -24,7 +27,10 @@ fun bindIsVisible(view: View, isVisible: Boolean?) {
 
 /*_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_IMAGEVIEW_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_*/
 
-@BindingAdapter(value = ["imageUrl", "placeholder", "error", "colorless", "imageOnPost"], requireAll = false)
+@BindingAdapter(
+    value = ["imageUrl", "placeholder", "error", "colorless", "imageOnPost"],
+    requireAll = false
+)
 fun bindImageFromUrl(
     view: ImageView,
     imageUrl: String?,
@@ -54,3 +60,13 @@ fun bindImageFromUrl(
         action()
     }
 }
+
+@BindingAdapter("srcGif")
+fun setSrcGif(view: ImageView, @DrawableRes drawable: Int) {
+    Glide.with(view.context)
+        .load(view.context.getDrawable(R.drawable.empty))
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(view)
+}
+
+

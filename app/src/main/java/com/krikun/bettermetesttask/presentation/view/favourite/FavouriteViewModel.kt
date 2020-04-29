@@ -1,6 +1,7 @@
 package com.krikun.bettermetesttask.presentation.view.favourite
 
 import android.annotation.SuppressLint
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -19,6 +20,9 @@ class FavouriteViewModel(val moviesUseCase: GetFavouriteMoviesUseCase) : BaseVie
 
     private val fetch = MutableLiveData<String>()
     private var tempDispossable: Disposable? = null
+    var isLoading = ObservableField<Boolean>()
+    var isEmpty = ObservableField<Boolean>()
+    var emptyRes = ObservableField<Int>(R.drawable.empty)
 
     val moviesLiveData: LiveData<ResultState<PagedList<Entity.Movie>>> =
         Transformations.switchMap(fetch) {

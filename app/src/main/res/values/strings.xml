@@ -7,4 +7,6 @@
     <string name="share">Share</string>
     <string name="remove_from_favourites">Remove from favourites</string>
     <string name="dummy_error">Oops! Something went wrong</string>
+    <string name="there_is_nothing_to_show">There is nothing to show</string>
+    <string name="no_internet">Check your internet connection</string>
 </resources>

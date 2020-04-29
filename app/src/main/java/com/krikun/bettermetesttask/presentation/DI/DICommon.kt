@@ -5,8 +5,6 @@ import android.net.ConnectivityManager
 import androidx.lifecycle.Lifecycle
 import com.google.gson.Gson
 import com.krikun.bettermetesttask.presentation.App
-import com.krikun.data.network.connection.NetworkConnection
-import com.krikun.bettermetesttask.presentation.base.coroutines.CoroutineLifecycleAwareScope
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,8 +23,7 @@ object DICommon {
             androidContext(app)
 
             val modules = mutableListOf(
-                connectionModule,
-                coroutinesModule
+                connectionModule
             ).apply {
                 addAll(diHolder.provideAppScopeModules())
             }
@@ -47,11 +44,6 @@ object DICommon {
 
     private val connectionModule = module {
         single { (get() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
-        single { NetworkConnection(get(), get()) }
-    }
-
-    private val coroutinesModule = module {
-        factory { (lifecycle: Lifecycle) -> CoroutineLifecycleAwareScope(lifecycle) }
     }
 
     /*_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_API_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_*/

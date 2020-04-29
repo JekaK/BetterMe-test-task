@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
 import com.krikun.bettermetesttask.R
-import com.krikun.bettermetesttask.presentation.base.coroutines.CoroutineLifecycleAwareScope
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlin.properties.Delegates
@@ -26,34 +25,6 @@ abstract class BaseFragment< ViewBindingType : ViewDataBinding> :
     abstract val layoutRes: Int
 //    protected var host: ActivityType? = null
     protected lateinit var binding: ViewBindingType
-
-    // Coroutines
-    val coroutineScope: CoroutineLifecycleAwareScope by lazy {
-        CoroutineLifecycleAwareScope(
-            lifecycle
-        )
-    }
-
-    private var mProgressDialog: ProgressDialog? = null
-
-    protected fun showLoading() {
-        hideLoading()
-        if (mProgressDialog == null) {
-            mProgressDialog = ProgressDialog(activity)
-            mProgressDialog?.show()
-        } else {
-            mProgressDialog?.show()
-        }
-        if (mProgressDialog?.window != null) {
-            mProgressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
-        mProgressDialog?.setContentView(R.layout.progress_dialog)
-        mProgressDialog?.isIndeterminate = true
-        mProgressDialog?.setCancelable(true)
-        mProgressDialog?.setCanceledOnTouchOutside(false)
-    }
-
-    protected fun hideLoading() = mProgressDialog?.cancel()
 
     // Lifecycle
     val viewLifecycle: LifecycleRegistry by lazy { LifecycleRegistry(this) }
@@ -69,17 +40,9 @@ abstract class BaseFragment< ViewBindingType : ViewDataBinding> :
     @Suppress("UNCHECKED_CAST")
     override fun onAttach(context: Context) {
         super.onAttach(context)
-//        host = try {
-//            context as ActivityType
-//        } catch (e: ClassCastException) {
-//            throw error("Activity type doesn't much!")
-//        }
+
     }
 
-    override fun onDetach() {
-        super.onDetach()
-//        host = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
