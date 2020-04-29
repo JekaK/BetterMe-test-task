@@ -49,12 +49,9 @@ class MoviesRepositoryImpl(
             .onErrorReturn { e -> ResultState.Error(e, null) }
     }
 
-    override fun deleteMovie(movie: Entity.Movie): Single<ResultState<Int>> =
-        databaseSource.deleteMovies(movie).map {
-            ResultState.Success(it) as ResultState<Int>
-        }.onErrorReturn {
-            ResultState.Error(it, null)
-        }
+    override fun deleteMovie(movie: Entity.Movie, deleteDone: () -> Unit) {
+        databaseSource.deleteMovies(movie, deleteDone)
+    }
 
 
     companion object {

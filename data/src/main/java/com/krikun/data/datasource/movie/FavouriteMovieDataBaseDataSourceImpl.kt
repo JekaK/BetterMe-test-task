@@ -5,8 +5,13 @@ import com.krikun.data.db.movie.FavouriteMoviesDao
 import com.krikun.data.mapper.map
 import com.krikun.data.mapper.mapToFavouriteMovie
 import com.krikun.domain.entity.Entity
+import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 import java.util.concurrent.Executor
+import java.util.function.Consumer
 
 class FavouriteMovieDataBaseDataSourceImpl(
     private val moviesDao: FavouriteMoviesDao,
@@ -25,7 +30,15 @@ class FavouriteMovieDataBaseDataSourceImpl(
         }
     }
 
-    override fun deleteMovies(movie: Entity.Movie): Single<Int> =
-        Single.just(moviesDao.delete(movie.mapToFavouriteMovie()))
+    override fun deleteMovies(movie: Entity.Movie, deleteDone: () -> Unit) {
+
+        ioExecutor.execute {
+            moviesDao.delete(movie.mapToFavouriteMovie())
+            deleteDone()
+        }
+
+    }
+
 
 }
+

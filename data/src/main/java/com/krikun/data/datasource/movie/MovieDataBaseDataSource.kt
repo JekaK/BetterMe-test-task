@@ -10,5 +10,5 @@ interface MovieDataBaseDataSource {
 
     fun persist(movies: List<Entity.Movie>, insertFinished: () -> Unit)
 
-    fun deleteMovies(movie: Entity.Movie): Single<Int>
+    fun deleteMovies(movie: Entity.Movie,deleteDone: () -> Unit)
 }

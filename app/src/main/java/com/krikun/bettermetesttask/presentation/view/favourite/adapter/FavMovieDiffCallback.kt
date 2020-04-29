@@ -1,13 +1,9 @@
-package com.krikun.bettermetesttask.presentation.view.movies.adapter
+package com.krikun.bettermetesttask.presentation.view.favourite.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.krikun.domain.entity.Entity
 
-class MovieDiffCallback : DiffUtil.ItemCallback<Entity.Movie>() {
-
-    private val mOldList: List<Entity.Movie>? = null
-
-    private val mNewList: List<Entity.Movie>? = null
+class FavMovieDiffCallback : DiffUtil.ItemCallback<Entity.Movie>() {
 
     override fun areItemsTheSame(oldItem: Entity.Movie, newItem: Entity.Movie): Boolean =
         oldItem.id == newItem.id

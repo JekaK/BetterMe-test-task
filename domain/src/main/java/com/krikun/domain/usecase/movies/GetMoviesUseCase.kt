@@ -10,6 +10,8 @@ import io.reactivex.Single
 interface GetMoviesUseCase : BaseUseCase {
     fun getMovies(): Flowable<ResultState<PagedList<Entity.Movie>>>
 
-    fun deleteMovie(movie: Entity.Movie): Single<ResultState<Int>>
+    fun deleteMovie(movie: Entity.Movie,deleteDone: () -> Unit)
+
+    fun addMovieToFavourites(movie: Entity.Movie, insertDone: () -> Unit)
 
 }

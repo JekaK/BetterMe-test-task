@@ -10,14 +10,14 @@ import io.reactivex.Flowable
 @Dao
 interface FavouriteMoviesDao : BaseDao<MovieData.FavouriteMovie> {
 
-    @Query("SELECT * FROM movie_table WHERE id = :id")
+    @Query("SELECT * FROM favourite_movie_table WHERE id = :id")
     override fun select(id: Long): Flowable<MovieData.FavouriteMovie>
 
-    @Query("SELECT * FROM movie_table ORDER BY id")
+    @Query("SELECT * FROM favourite_movie_table ORDER BY id")
     override fun selectAll(): DataSource.Factory<Int, MovieData.FavouriteMovie>
 
 
-    @Query("DELETE FROM movie_table")
+    @Query("DELETE FROM favourite_movie_table")
     override fun truncate()
 
     @Transaction
@@ -34,7 +34,7 @@ interface FavouriteMoviesDao : BaseDao<MovieData.FavouriteMovie> {
         insert(favouriteMovies)
     }
 
-    @Query("DELETE FROM movie_table WHERE id BETWEEN :firstId AND :lastId")
+    @Query("DELETE FROM favourite_movie_table WHERE id BETWEEN :firstId AND :lastId")
     fun deleteRange(firstId: Long, lastId: Long)
 
 }

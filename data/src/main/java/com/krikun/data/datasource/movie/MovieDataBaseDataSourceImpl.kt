@@ -5,7 +5,6 @@ import com.krikun.data.db.movie.MoviesDao
 import com.krikun.data.mapper.map
 import com.krikun.data.mapper.mapToMovie
 import com.krikun.domain.entity.Entity
-import io.reactivex.Single
 import java.util.concurrent.Executor
 
 class MovieDataBaseDataSourceImpl(
@@ -26,7 +25,11 @@ class MovieDataBaseDataSourceImpl(
         }
     }
 
-    override fun deleteMovies(movie: Entity.Movie): Single<Int> =
-        Single.just(moviesDao.delete(movie.mapToMovie()))
+    override fun deleteMovies(movie: Entity.Movie, deleteDone: () -> Unit) {
+        ioExecutor.execute {
+            moviesDao.delete(movie.mapToMovie())
+            deleteDone()
+        }
+    }
 
 }

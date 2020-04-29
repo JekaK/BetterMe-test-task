@@ -3,4 +3,8 @@
     <string name="main_database_name">main_db</string>
     <string name="favourite">Favourite</string>
     <string name="movies">Movies</string>
+    <string name="add_to_favourites">Add to Favourites</string>
+    <string name="share">Share</string>
+    <string name="remove_from_favourites">Remove from favourites</string>
+    <string name="dummy_error">Oops! Something went wrong</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.krikun.bettermetesttask.presentation.view.movies.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -12,28 +11,33 @@ import com.krikun.bettermetesttask.databinding.ItemMovieBinding
 import com.krikun.domain.entity.Entity
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MoviesPagedAdapter :
     PagedListAdapter<Entity.Movie, MoviesPagedAdapter.DataHolder>(MovieDiffCallback()) {
 
-    private val onAlbumItemClickSubject = PublishSubject.create<Entity.Movie>()
-    val albumItemClickEvent: Observable<Entity.Movie> = onAlbumItemClickSubject
+    private val onMovieAddItemClickSubject = PublishSubject.create<Entity.Movie>()
+    val movieAddItemClickEvent: Observable<Entity.Movie> = onMovieAddItemClickSubject
+
+    private val onMovieShareItemClickSubject = PublishSubject.create<Entity.Movie>()
+    val movieShareItemClickEvent: Observable<Entity.Movie> = onMovieShareItemClickSubject
 
     inner class DataHolder(private var itemAlbumBinding: ItemMovieBinding) : RecyclerView.ViewHolder
-        (itemAlbumBinding.root), View.OnClickListener {
+        (itemAlbumBinding.root) {
 
         fun bind(movie: Entity.Movie) {
             itemAlbumBinding.movie = movie
-            itemAlbumBinding.root.setOnClickListener(this)
-            itemAlbumBinding.executePendingBindings()
-        }
-
-        override fun onClick(view: View) {
-            val album = getItem((adapterPosition))
-            album?.let {
-                val product: Entity.Movie = album
-                onAlbumItemClickSubject.onNext(product)
+            itemAlbumBinding.root.btnAdd.setOnClickListener {
+                movie.let {
+                    onMovieAddItemClickSubject.onNext(movie)
+                }
             }
+            itemAlbumBinding.root.btnFav.setOnClickListener {
+                movie.let {
+                    onMovieShareItemClickSubject.onNext(movie)
+                }
+            }
+            itemAlbumBinding.executePendingBindings()
         }
     }
 

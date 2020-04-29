@@ -3,11 +3,10 @@ package com.krikun.data.repository.favourite
 import androidx.paging.PagedList
 import androidx.paging.RxPagedListBuilder
 import com.krikun.data.datasource.movie.FavouriteMovieDataBaseDataSource
-import com.krikun.data.datasource.movie.MovieDataBaseDataSource
 import com.krikun.data.repository.BaseRepositoryImpl
 import com.krikun.domain.common.ResultState
 import com.krikun.domain.entity.Entity
-import com.krikun.domain.repository.movies.MoviesRepository
+import com.krikun.domain.repository.movies.FavouriteMovieRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -15,7 +14,11 @@ import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 
 class FavouriteMoviesRepositoryImpl(
     private val databaseSource: FavouriteMovieDataBaseDataSource
-) : BaseRepositoryImpl<Entity.Movie>(), MoviesRepository {
+) : BaseRepositoryImpl<Entity.Movie>(), FavouriteMovieRepository {
+
+    override fun addMovieToFavourite(movie: Entity.Movie, insertDone: () -> Unit) {
+        databaseSource.persist(listOf(movie), insertDone)
+    }
 
     override fun getMovies(): Flowable<ResultState<PagedList<Entity.Movie>>> {
         val dataSourceFactory = databaseSource.getMovies()
@@ -36,12 +39,10 @@ class FavouriteMoviesRepositoryImpl(
             .onErrorReturn { e -> ResultState.Error(e, null) }
     }
 
-    override fun deleteMovie(movie: Entity.Movie): Single<ResultState<Int>> =
-        databaseSource.deleteMovies(movie).map {
-            ResultState.Success(it) as ResultState<Int>
-        }.onErrorReturn {
-            ResultState.Error(it, null)
-        }
+    override fun deleteMovie(movie: Entity.Movie,deleteDone: () -> Unit) {
+
+        databaseSource.deleteMovies(movie,deleteDone)
+    }
 
 
     companion object {

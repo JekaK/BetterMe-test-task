@@ -11,7 +11,7 @@ import com.krikun.domain.entity.Entity
 import com.krikun.domain.usecase.movies.GetMoviesUseCase
 import io.reactivex.disposables.Disposable
 
-class MoviesViewModel(moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
+class MoviesViewModel(val moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
 
     private val fetch = MutableLiveData<String>()
     private var tempDispossable: Disposable? = null
@@ -31,5 +31,9 @@ class MoviesViewModel(moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
 
     fun getMovies() {
         fetch.postValue("")
+    }
+
+    fun addMovieToFav(movie:Entity.Movie,insertionDone:()->Unit){
+        moviesUseCase.addMovieToFavourites(movie,insertionDone)
     }
 }

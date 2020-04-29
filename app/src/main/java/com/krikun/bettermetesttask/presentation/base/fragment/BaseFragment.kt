@@ -1,6 +1,9 @@
 package com.krikun.bettermetesttask.presentation.base.fragment
 
+import android.app.ProgressDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleRegistry
+import com.krikun.bettermetesttask.R
 import com.krikun.bettermetesttask.presentation.base.coroutines.CoroutineLifecycleAwareScope
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -29,6 +33,27 @@ abstract class BaseFragment< ViewBindingType : ViewDataBinding> :
             lifecycle
         )
     }
+
+    private var mProgressDialog: ProgressDialog? = null
+
+    protected fun showLoading() {
+        hideLoading()
+        if (mProgressDialog == null) {
+            mProgressDialog = ProgressDialog(activity)
+            mProgressDialog?.show()
+        } else {
+            mProgressDialog?.show()
+        }
+        if (mProgressDialog?.window != null) {
+            mProgressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        mProgressDialog?.setContentView(R.layout.progress_dialog)
+        mProgressDialog?.isIndeterminate = true
+        mProgressDialog?.setCancelable(true)
+        mProgressDialog?.setCanceledOnTouchOutside(false)
+    }
+
+    protected fun hideLoading() = mProgressDialog?.cancel()
 
     // Lifecycle
     val viewLifecycle: LifecycleRegistry by lazy { LifecycleRegistry(this) }
