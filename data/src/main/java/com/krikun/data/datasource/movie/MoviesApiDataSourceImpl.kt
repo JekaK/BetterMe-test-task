@@ -25,6 +25,9 @@ class MoviesApiDataSourceImpl(private val api: MainApiService) : MovieApiDataSou
             .map { item ->
                 item.map()
             }
+            .doOnError {
+                it.printStackTrace()
+            }
     }
 
 }

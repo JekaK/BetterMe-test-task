@@ -2,6 +2,7 @@ package com.krikun.bettermetesttask.presentation.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.*
 
 abstract class BaseViewModel : ViewModel() {
@@ -10,6 +11,10 @@ abstract class BaseViewModel : ViewModel() {
 
     private val subscriptionHandler: CompositeDisposable by lazy { CompositeDisposable() }
     protected val subscriptionHandler2: CompositeDisposable by lazy { CompositeDisposable() }
+
+    fun Disposable.track() {
+        subscriptionHandler.add(this)
+    }
 
     protected fun clearRx(handler: CompositeDisposable = subscriptionHandler) {
         handler.clear()

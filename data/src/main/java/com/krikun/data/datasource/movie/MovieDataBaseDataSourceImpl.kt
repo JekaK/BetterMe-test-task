@@ -12,6 +12,7 @@ class MovieDataBaseDataSourceImpl(
     private val moviesDao: MoviesDao,
     private val ioExecutor: Executor
 ) : MovieDataBaseDataSource {
+
     override fun getMovies(): DataSource.Factory<Int, Entity.Movie> = moviesDao.selectAll().map {
         it.map()
     }

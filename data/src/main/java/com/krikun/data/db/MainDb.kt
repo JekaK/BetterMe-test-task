@@ -12,7 +12,7 @@ import com.krikun.data.db.movie.MoviesDao
 @TypeConverters(MovieData.IdsConverter::class)
 @Database(
     entities = [MovieData.Movie::class, MovieData.FavouriteMovie::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class MainDb : RoomDatabase() {

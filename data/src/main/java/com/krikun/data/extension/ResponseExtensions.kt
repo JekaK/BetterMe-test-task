@@ -1,4 +1,4 @@
-package com.krikun.data.extensions
+package com.krikun.data.extension
 
 import com.google.gson.Gson
 import retrofit2.Response
