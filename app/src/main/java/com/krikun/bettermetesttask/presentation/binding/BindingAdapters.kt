@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -34,8 +35,8 @@ fun bindIsVisible(view: View, isVisible: Boolean?) {
 fun bindImageFromUrl(
     view: ImageView,
     imageUrl: String?,
-    placeholder: Drawable?,
-    error: Drawable?,
+    placeholder: Drawable? = ContextCompat.getDrawable(view.context, R.drawable.ic_empty_movie),
+    error: Drawable? = ContextCompat.getDrawable(view.context, R.drawable.ic_empty_movie),
     colorless: Boolean? = false,
     imageOnPost: Boolean? = true
 ) {
@@ -44,8 +45,8 @@ fun bindImageFromUrl(
         Glide.with(view.context)
             .load(imageUrl)
             .apply(RequestOptions().apply {
-                placeholder?.let { this.placeholder(it) }
-                error?.let { this.error(it) }
+                this.placeholder(ContextCompat.getDrawable(view.context, R.drawable.ic_empty_movie))
+                this.error(ContextCompat.getDrawable(view.context, R.drawable.ic_empty_movie))
                 colorless?.takeIf { it }?.let {
                     this.apply(RequestOptions.bitmapTransform(GrayscaleTransformation()))
                 }

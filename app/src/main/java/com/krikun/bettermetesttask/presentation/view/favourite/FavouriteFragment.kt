@@ -30,9 +30,9 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(),
 
     override fun onCreate(initial: Boolean) {
         super.onCreate(initial)
-        if(initial){
+        if (initial) {
             initRx()
-            observe(viewModel.moviesLiveData, ::showMovies)
+            viewModel.isLoading.set(true)
         }
     }
 
@@ -43,20 +43,19 @@ class FavouriteFragment : BaseFragment<FragmentFavouriteBinding>(),
     }
 
     private fun initView() {
-        srFav.isRefreshing = true
+        srFav.isRefreshing = false
         srFav.setOnRefreshListener(this)
         rvFavourite.adapter = adapter
-
-        viewModel.isLoading.set(true)
     }
 
     @SuppressLint("CheckResult")
-    private fun initRx(){
+    private fun initRx() {
         adapter.movieDeleteItemClickEvent.applyIoScheduler().subscribe { it ->
             viewModel.deleteMovie(it) {
                 //Can do some fancy stuff
             }
         }
+        observe(viewModel.moviesLiveData, ::showMovies)
     }
 
     private fun showMovies(movies: ResultState<PagedList<Entity.Movie>>) {

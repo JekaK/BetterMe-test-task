@@ -29,8 +29,9 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(), SwipeRefreshLayout
 
     override fun onCreate(initial: Boolean) {
         super.onCreate(initial)
-        if(initial){
+        if (initial) {
             initRx()
+            viewModel.isLoading.set(true)
         }
     }
 
@@ -39,12 +40,17 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(), SwipeRefreshLayout
         initView()
         viewModel.getMovies()
     }
+
     @SuppressLint("CheckResult")
-    private fun initRx(){
+    private fun initRx() {
         adapter.movieAddItemClickEvent.applyIoScheduler().subscribe { it ->
             viewModel.addMovieToFav(it) {
                 activity?.runOnUiThread {
-                    Toast.makeText(activity, getString(R.string.added_to_favourite), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        getString(R.string.added_to_favourite),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -64,11 +70,9 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(), SwipeRefreshLayout
     }
 
     private fun initView() {
-        srMovies.isRefreshing = true
+        srMovies.isRefreshing = false
         srMovies.setOnRefreshListener(this)
         rvMovies.adapter = adapter
-
-        viewModel.isLoading.set(true)
     }
 
     private fun showMovies(movies: ResultState<PagedList<Entity.Movie>>) {
@@ -86,7 +90,11 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(), SwipeRefreshLayout
                 adapter.submitList(movies.data)
             }
             is ResultState.Loading -> {
-                viewModel.isEmpty.set(false)
+                if (movies.data.isEmpty()) {
+                    viewModel.isEmpty.set(true)
+                } else {
+                    viewModel.isEmpty.set(false)
+                }
                 adapter.submitList(movies.data)
             }
             is ResultState.Empty -> {

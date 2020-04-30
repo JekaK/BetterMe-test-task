@@ -61,7 +61,7 @@ ext {
     koinVersion = '2.1.5'
     room_version = '2.2.5'
     paging_version = "2.1.2"
-    glideVersion = '4.9.0'
+    glideVersion = '4.11.0'
 }
 
 dependencies {
