@@ -83,22 +83,4 @@ class MovieDataBaseDataSourceUnitTest {
         Assert.assertNotNull(result)
     }
 
-    @Test
-    fun `delete list result after calling deleteMovies()`() {
-        val collectionSize = ArrayList(dummyCollectionToInsert)
-
-        whenever(movieDao.delete(dummyCollection[1]))
-            .then {
-                dummyCollection.removeAt(1)
-            }.thenReturn(1)
-
-        movieDataBaseDataSourceImpl.deleteMovies(dummyCollectionToInsert[1], {})
-
-        verify(movieDao).delete(dummyCollection[1])
-
-        Mockito.verifyNoMoreInteractions(movieDao)
-        Thread.sleep(100)
-        Assert.assertEquals(dummyCollectionToInsert.size, collectionSize.size)
-
-    }
 }

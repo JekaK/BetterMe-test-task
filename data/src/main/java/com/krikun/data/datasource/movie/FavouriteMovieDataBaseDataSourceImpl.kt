@@ -31,14 +31,10 @@ class FavouriteMovieDataBaseDataSourceImpl(
     }
 
     override fun deleteMovies(movie: Entity.Movie, deleteDone: () -> Unit) {
-
         ioExecutor.execute {
             moviesDao.delete(movie.mapToFavouriteMovie())
             deleteDone()
         }
-
     }
-
-
 }
 
