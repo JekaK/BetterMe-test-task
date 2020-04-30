@@ -26,9 +26,9 @@ class RepoBoundaryCallback(
         requestAndSaveData()
     }
 
-    override fun onItemAtEndLoaded(itemAtEnd: Entity.Movie) {
-        requestAndSaveData()
-    }
+//    override fun onItemAtEndLoaded(itemAtEnd: Entity.Movie) {
+//        requestAndSaveData()
+//    }
 
     override fun onItemAtFrontLoaded(itemAtFront: Entity.Movie) {
         requestAndSaveData()

@@ -38,6 +38,7 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+
 }
 
 buildscript {
@@ -63,6 +64,9 @@ ext {
     koinVersion = '2.1.5'
     room_version = '2.2.5'
     paging_version = "2.1.2"
+    mockitoKotlinVersion = '2.2.0'
+    mockitoCoreVersion = '3.3.3'
+    mockitoInlineVersion = '3.3.3'
 }
 
 
@@ -113,13 +117,20 @@ dependencies {
 
     api 'com.orhanobut:hawk:2.0.1'
 
-    implementation "androidx.paging:paging-runtime:$paging_version" // For Kotlin use paging-runtime-ktx
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    // For Kotlin use paging-runtime-ktx
 
     // alternatively - without Android dependencies for testing
-    testImplementation "androidx.paging:paging-common:$paging_version" // For Kotlin use paging-common-ktx
+    testImplementation "androidx.paging:paging-common:$paging_version"
+    // For Kotlin use paging-common-ktx
 
     // optional - RxJava support
     implementation "androidx.paging:paging-rxjava2:$paging_version"
+
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
 
     implementation project(":domain")
 }

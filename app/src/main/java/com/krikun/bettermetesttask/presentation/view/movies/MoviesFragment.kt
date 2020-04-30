@@ -44,7 +44,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(), SwipeRefreshLayout
         adapter.movieAddItemClickEvent.applyIoScheduler().subscribe { it ->
             viewModel.addMovieToFav(it) {
                 activity?.runOnUiThread {
-                    Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, getString(R.string.added_to_favourite), Toast.LENGTH_SHORT).show()
                 }
             }
         }

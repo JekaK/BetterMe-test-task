@@ -20,10 +20,10 @@ interface MainApiService {
     sealed class MovieDto {
 
         data class CommonMovieResponse<T>(
-            val page: Int,
+            var page: Int,
             val results: List<T>,
-            val total_pages: Int,
-            val total_results: Int
+            var total_pages: Int,
+            var total_results: Int
         ) : MovieDto()
 
         data class Movie(

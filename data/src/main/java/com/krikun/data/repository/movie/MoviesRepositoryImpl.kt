@@ -26,7 +26,7 @@ class MoviesRepositoryImpl(
     private val loadingError: BehaviorSubject<String> =
         BehaviorSubject.create()
 
-    override fun getLoadingStateWatcher(): Observable<String> = loadingError
+    override fun getErrorWatcher(): Observable<String> = loadingError
 
     override fun getMovies(): Flowable<ResultState<PagedList<Entity.Movie>>> {
         val dataSourceFactory = databaseSource.getMovies()

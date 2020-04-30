@@ -18,7 +18,7 @@ import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 
 class FavouriteViewModel(val moviesUseCase: GetFavouriteMoviesUseCase) : BaseViewModel() {
 
-    private val fetch = MutableLiveData<String>()
+    private val fetch = MutableLiveData<Boolean>()
     private var tempDispossable: Disposable? = null
     var isLoading = ObservableField<Boolean>()
     var isEmpty = ObservableField<Boolean>()
@@ -38,7 +38,7 @@ class FavouriteViewModel(val moviesUseCase: GetFavouriteMoviesUseCase) : BaseVie
         }
 
     fun getMovies() {
-        fetch.postValue("")
+        fetch.postValue(true)
     }
 
     @SuppressLint("CheckResult")

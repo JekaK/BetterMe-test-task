@@ -60,6 +60,9 @@ ext {
     koinVersion = '2.1.5'
     room_version = '2.2.5'
     paging_version = "2.1.2"
+    mockitoKotlinVersion = '2.2.0'
+    mockitoCoreVersion = '3.3.3'
+    mockitoInlineVersion = '3.3.3'
 }
 
 dependencies {
@@ -114,5 +117,9 @@ dependencies {
 
     // optional - RxJava support
     implementation "androidx.paging:paging-rxjava2:$paging_version"
+
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
 
 }

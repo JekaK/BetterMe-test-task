@@ -11,7 +11,13 @@ class FavMovieDiffCallback : DiffUtil.ItemCallback<Entity.Movie>() {
     override fun areContentsTheSame(oldItem: Entity.Movie, newItem: Entity.Movie): Boolean =
         oldItem == newItem
 
-    override fun getChangePayload(oldItem: Entity.Movie, newItem: Entity.Movie): Any? {
-        return super.getChangePayload(oldItem, newItem)
-    }
+    override fun getChangePayload(oldItem: Entity.Movie, newItem: Entity.Movie): Any? =
+        if (oldItem.id == newItem.id &&
+            oldItem.title == newItem.title &&
+            oldItem.overview == newItem.overview
+        ) {
+            oldItem
+        } else {
+            newItem
+        }
 }

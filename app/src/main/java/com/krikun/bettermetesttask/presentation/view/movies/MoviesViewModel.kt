@@ -2,26 +2,22 @@ package com.krikun.bettermetesttask.presentation.view.movies
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.PagedList
 import com.krikun.bettermetesttask.R
-import com.krikun.bettermetesttask.presentation.App.Companion.context
 import com.krikun.bettermetesttask.presentation.base.livedata.OperationLiveData
 import com.krikun.bettermetesttask.presentation.base.livedata.SingleLiveEvent
 import com.krikun.bettermetesttask.presentation.base.viewmodel.BaseViewModel
-import com.krikun.bettermetesttask.presentation.utils.Network
 import com.krikun.domain.common.ResultState
 import com.krikun.domain.entity.Entity
 import com.krikun.domain.usecase.movies.GetMoviesUseCase
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import ir.hosseinabbasi.data.common.extension.applyIoScheduler
 
 class MoviesViewModel(val moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
 
-    private val fetch = MutableLiveData<String>()
+    private val fetch = MutableLiveData<Boolean>()
     private var tempDispossable: Disposable? = null
 
     var isLoading = ObservableField<Boolean>()
@@ -46,7 +42,7 @@ class MoviesViewModel(val moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
     val errorData: LiveData<String> by lazy { errorLiveData }
 
     init {
-        moviesUseCase.getLoadingStateWatcher().apply {
+        moviesUseCase.getErrorWatcher().apply {
             applyIoScheduler()
                 .subscribe {
                     errorLiveData.postValue(it)
@@ -55,7 +51,7 @@ class MoviesViewModel(val moviesUseCase: GetMoviesUseCase) : BaseViewModel() {
     }
 
     fun getMovies() {
-        fetch.postValue("")
+        fetch.postValue(true)
     }
 
     fun addMovieToFav(movie: Entity.Movie, insertionDone: () -> Unit) {

@@ -25,7 +25,7 @@ class GetMoviesUseCaseImpl(
         favouriteMovieRepository.addMovieToFavourite(movie, insertionDone)
     }
 
-    override fun getLoadingStateWatcher(): Observable<String> =
-        repository.getLoadingStateWatcher()
+    override fun getErrorWatcher(): Observable<String> =
+        repository.getErrorWatcher()
 }
 

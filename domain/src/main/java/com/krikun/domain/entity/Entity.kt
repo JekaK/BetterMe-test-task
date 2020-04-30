@@ -13,16 +13,16 @@ sealed class Entity {
         val popularity: Double?,
         val poster_path: String?,
         val release_date: String?,
-        val title: String?,
+        var title: String?,
         val video: Boolean?,
         val vote_average: Double?,
         val vote_count: Int?
     ) : Entity()
 
     data class CommonMovieResponse<T>(
-        val page: Int,
-        val results: List<T>,
-        val total_pages: Int,
-        val total_results: Int
+        var page: Int,
+        var results: List<T>,
+        var total_pages: Int,
+        var total_results: Int
     ) : Entity()
 }

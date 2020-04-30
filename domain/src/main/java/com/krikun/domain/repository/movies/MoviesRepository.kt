@@ -13,5 +13,5 @@ interface MoviesRepository : BaseRepository {
 
     fun deleteMovie(movie: Entity.Movie,deleteDone: () -> Unit)
 
-    fun getLoadingStateWatcher(): Observable<String>
+    fun getErrorWatcher(): Observable<String>
 }

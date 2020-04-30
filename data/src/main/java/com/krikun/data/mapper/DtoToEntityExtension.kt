@@ -23,7 +23,7 @@ fun MainApiService.MovieDto.Movie.map() = Entity.Movie(
 fun MainApiService.MovieDto.CommonMovieResponse<MainApiService.MovieDto.Movie>.map() =
     Entity.CommonMovieResponse(
         page = page,
-        results = results.map {
+        results = results.map{
             it.map()
         },
         total_pages = total_pages,
