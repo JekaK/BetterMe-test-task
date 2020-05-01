@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('E:\\Work\\better_me.jks')
+            storePassword 'fxe_315%'
+            keyAlias = 'key0'
+            keyPassword 'fxe_315%'
+        }
+    }
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.krikun.bettermetesttask"
