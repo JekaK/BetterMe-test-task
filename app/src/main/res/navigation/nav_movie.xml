@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/moviesFragment"
-        android:name="com.krikun.bettermetesttask.presentation.view.movies.MoviesFragment"
+        android:name="com.krikun.cleanarch.presentation.view.movies.MoviesFragment"
         android:label="MoviesFragment" />
 </navigation>

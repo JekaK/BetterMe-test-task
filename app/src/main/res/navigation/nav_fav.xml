@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.krikun.bettermetesttask.presentation.view.favourite.FavouriteFragment"
+        android:name="com.krikun.cleanarch.presentation.view.favourite.FavouriteFragment"
         android:label="FavouriteFragment" />
 </navigation>

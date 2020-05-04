@@ -1,7 +1,5 @@
 package com.krikun.data.repository.movie
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.krikun.data.datasource.movie.MovieApiDataSource
 import com.krikun.data.datasource.movie.MovieDataBaseDataSource

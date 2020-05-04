@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.krikun.bettermetesttask.presentation.view.movies.MoviesViewModel" />
+            type="com.krikun.cleanarch.presentation.view.movies.MoviesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
